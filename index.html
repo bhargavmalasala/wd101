@@ -61,6 +61,7 @@
                   name="dob"
                   class="bg-gray-100 inline-block rounded-lg shadow-md px-4 py-3 mb-5 text-base leading-6 placeholder-gray-500 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                 />
+                <span id="dob-error" class="text-red-500 text-sm block mb-2"></span>
                 <br />
                 <label for="acceptTerms" class="text-md w-80 inline-block font-medium leading-5 text-gray-700">
                   Accept Terms & Conditions
@@ -73,7 +74,9 @@
                 />
                 <button
                   type="submit"
+                  id="submit-btn"
                   class="w-fit rounded-lg shadow-lg px-8 py-4 bg-green-500 text-white hover:bg-green-400 focus:outline-none focus:shadow-outline transition duration-200"
+                  disabled
                 >
                   Submit
                 </button>
