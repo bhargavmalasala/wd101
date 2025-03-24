@@ -6,80 +6,104 @@
     <title>Registration Form</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="bg-gray-100 flex flex-col items-center p-5">
-    <div class="bg-white p-5 rounded-lg shadow-md w-full max-w-2xl mb-5">
-      <h2 class="text-2xl font-bold mb-5">Registration Form</h2>
-      <form id="user-form">
-        <label for="name" class="block font-bold mb-1">Name</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          placeholder="Jane Doe"
-          required
-          class="w-full p-2 mb-4 border border-gray-300 rounded-md"
-        />
-
-        <label for="email" class="block font-bold mb-1">Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="jane.doe@gmail.com"
-          required
-          class="w-full p-2 mb-4 border border-gray-300 rounded-md"
-        />
-
-        <label for="password" class="block font-bold mb-1">Password</label>
-        <input 
-          type="password" 
-          id="password" 
-          name="password" 
-          required
-          class="w-full p-2 mb-4 border border-gray-300 rounded-md"
-        />
-
-        <label for="dob" class="block font-bold mb-1">Date of Birth</label>
-        <input
-          type="date"
-          id="dob"
-          name="dob"
-          required
-          class="w-full p-2 mb-4 border border-gray-300 rounded-md"
-        />
-
-        <div class="flex items-center mb-4">
-          <input type="checkbox" id="terms" name="terms" required class="mr-2" />
-          <label for="terms">Accept Terms & Conditions</label>
+  <body>
+    <div class="relative flex min-h-screen flex-col justify-center overflow-hidden py-6 bg-gray-50">
+      <!-- Registration Form Section -->
+      <div class="relative bg-white px-6 pt-5 pb-5 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
+        <div class="mx-auto max-w-md">
+          <h2 class="text-3xl text-center font-bold leading-tight">Registration Form</h2>
+          <div class="divide-y divide-gray-300/50">
+            <div class="space-y-6 py-8 text-base leading-7 text-gray-600">
+              <form id="user-form">
+                <label for="name" class="text-md w-40 inline-block font-medium leading-5 text-gray-700">
+                  Name
+                </label>
+                <input
+                  required
+                  type="text"
+                  id="name"
+                  name="name"
+                  class="bg-gray-100 inline-block rounded-lg shadow-md px-4 py-3 mb-5 text-base leading-6 placeholder-gray-500 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                  placeholder="Enter full name"
+                />
+                <br />
+                <label for="email" class="text-md w-40 inline-block font-medium leading-5 text-gray-700">
+                  Email
+                </label>
+                <input
+                  required
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="bg-gray-100 inline-block rounded-lg shadow-md px-4 py-3 mb-5 text-base leading-6 placeholder-gray-500 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                  placeholder="Enter email"
+                />
+                <br />
+                <label for="password" class="text-md w-40 inline-block font-medium leading-5 text-gray-700">
+                  Password
+                </label>
+                <input
+                  required
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="bg-gray-100 inline-block rounded-lg shadow-md px-4 py-3 mb-5 text-base leading-6 placeholder-gray-500 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                  placeholder="Enter password"
+                />
+                <br />
+                <label for="dob" class="text-md w-40 inline-block font-medium leading-5 text-gray-700">
+                  Date of Birth
+                </label>
+                <input
+                  required
+                  type="date"
+                  id="dob"
+                  name="dob"
+                  class="bg-gray-100 inline-block rounded-lg shadow-md px-4 py-3 mb-5 text-base leading-6 placeholder-gray-500 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                />
+                <br />
+                <label for="acceptTerms" class="text-md w-80 inline-block font-medium leading-5 text-gray-700">
+                  Accept Terms & Conditions
+                </label>
+                <input
+                  type="checkbox"
+                  id="acceptTerms"
+                  name="acceptTerms"
+                  class="bg-gray-100 inline-block rounded-lg shadow-md px-4 py-3 mb-5 text-base leading-6 placeholder-gray-500 focus:outline-none focus:shadow-outline"
+                />
+                <button
+                  type="submit"
+                  class="w-fit rounded-lg shadow-lg px-8 py-4 bg-green-500 text-white hover:bg-green-400 focus:outline-none focus:shadow-outline transition duration-200"
+                >
+                  Submit
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <button 
-          type="submit" 
-          id="submit"
-          class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md"
-        >
-          Submit
-        </button>
-      </form>
-    </div>
-
-    <div class="bg-white p-5 rounded-lg shadow-md w-full max-w-2xl mb-5">
-      <h2 class="text-2xl font-bold mb-5">Entries</h2>
-      <div id="entries" class="overflow-x-auto">
-        <table id="user-entries" class="min-w-full border-collapse border border-gray-300">
-          <thead>
-            <tr class="bg-gray-100">
-              <th class="border px-4 py-2">Name</th>
-              <th class="border px-4 py-2">Email</th>
-              <th class="border px-4 py-2">Password</th>
-              <th class="border px-4 py-2">Dob</th>
-              <th class="border px-4 py-2">Accepted terms?</th>
-            </tr>
-          </thead>
-          <tbody id="entries-body">
-            <!-- Entries will be inserted here -->
-          </tbody>
-        </table>
+      <!-- User Entries Section -->
+      <div class="relative bg-white px-6 mt-5 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:rounded-lg sm:px-10">
+        <div class="mx-auto max-w-2xl">
+          <h2 class="text-3xl text-center font-bold leading-tight text-gray-700" id="user-entries">
+            Entries
+          </h2>
+          <div class="divide-y divide-gray-300/50">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Password</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dob</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Accepted terms?</th>
+                </tr>
+              </thead>
+              <tbody id="entries-table-body" class="bg-white divide-y divide-gray-200"></tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
     <script src="index.js"></script>
