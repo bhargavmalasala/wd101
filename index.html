@@ -31,10 +31,10 @@
         />
 
         <label for="password" class="block font-bold mb-1">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
           required
           class="w-full p-2 mb-4 border border-gray-300 rounded-md"
         />
@@ -44,24 +44,17 @@
           type="date"
           id="dob"
           name="dob"
-          placeholder="dd/mm/yyyy"
           required
           class="w-full p-2 mb-4 border border-gray-300 rounded-md"
         />
 
         <div class="flex items-center mb-4">
-          <input
-            type="checkbox"
-            id="terms"
-            name="terms"
-            required
-            class="mr-2"
-          />
+          <input type="checkbox" id="terms" name="terms" required class="mr-2" />
           <label for="terms">Accept Terms & Conditions</label>
         </div>
 
-        <button
-          type="submit"
+        <button 
+          type="submit" 
           id="submit"
           class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md"
         >
@@ -73,8 +66,21 @@
     <div class="bg-white p-5 rounded-lg shadow-md w-full max-w-2xl mb-5">
       <h2 class="text-2xl font-bold mb-5">Entries</h2>
       <div id="entries" class="overflow-x-auto">
+        <table id="user-entries" class="min-w-full border-collapse border border-gray-300">
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="border px-4 py-2">Name</th>
+              <th class="border px-4 py-2">Email</th>
+              <th class="border px-4 py-2">Password</th>
+              <th class="border px-4 py-2">Dob</th>
+              <th class="border px-4 py-2">Accepted terms?</th>
+            </tr>
+          </thead>
+          <tbody id="entries-body">
+            <!-- Entries will be inserted here -->
+          </tbody>
+        </table>
       </div>
     </div>
-    <script src="index.js"></script>
   </body>
 </html>
