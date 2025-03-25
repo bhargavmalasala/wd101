@@ -1,9 +1,6 @@
-// Get form, table body, DOB input, error message, and submit button elements
+// Get form and table body elements
 const userForm = document.getElementById("user-form");
 const entriesTableBody = document.getElementById("entries-table-body");
-const dobInput = document.getElementById("dob");
-const dobError = document.getElementById("dob-error");
-const submitBtn = document.getElementById("submit-btn");
 
 // Initialize userEntries from localStorage or as an empty array
 let userEntries = JSON.parse(localStorage.getItem("user-entries")) || [];
@@ -16,6 +13,7 @@ const validateEmail = (email) => {
 
 // Function to calculate age from date of birth
 const calculateAge = (dob) => {
+  // Ensure dob is a valid date string
   if (!dob) {
     return null; // Return null if dob is empty or invalid
   }
@@ -23,6 +21,7 @@ const calculateAge = (dob) => {
   const birthDate = new Date(dob);
   const today = new Date();
 
+  // Check if birthDate is a valid date
   if (isNaN(birthDate.getTime())) {
     return null; // Return null if the date is invalid
   }
@@ -31,31 +30,12 @@ const calculateAge = (dob) => {
   const monthDiff = today.getMonth() - birthDate.getMonth();
   const dayDiff = today.getDate() - birthDate.getDate();
 
+  // Adjust age if the birthday hasn't occurred this year
   if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
     age--;
   }
 
   return age;
-};
-
-// Function to validate age and update UI
-const validateAge = () => {
-  const dob = dobInput.value;
-  const age = calculateAge(dob);
-
-  if (age === null || age < 18 || age > 55) {
-    if (age !== null) {
-      dobError.textContent = `Age must be between 18 and 55 years. Current age: ${age}`;
-    } else {
-      dobError.textContent = "Please enter a valid date of birth.";
-    }
-    submitBtn.disabled = true;
-    submitBtn.classList.add("opacity-50", "cursor-not-allowed");
-  } else {
-    dobError.textContent = "";
-    submitBtn.disabled = false;
-    submitBtn.classList.remove("opacity-50", "cursor-not-allowed");
-  }
 };
 
 // Function to display entries in the table
@@ -91,9 +71,13 @@ const saveUserForm = (event) => {
     return;
   }
 
-  // Validate age (redundant due to real-time validation, but kept as a fallback)
+  // Validate age (18 to 55 years)
   const age = calculateAge(dob);
-  if (age === null || age < 18 || age > 55) {
+  if (age === null) {
+    alert("Please enter a valid date of birth.");
+    return;
+  }
+  if (age < 18 || age > 55) {
     alert("Age must be between 18 and 55 years.");
     return;
   }
@@ -118,14 +102,7 @@ const saveUserForm = (event) => {
 
   // Reset the form
   userForm.reset();
-  // Reset the submit button state after form reset
-  submitBtn.disabled = true;
-  submitBtn.classList.add("opacity-50", "cursor-not-allowed");
-  dobError.textContent = "";
 };
-
-// Add event listener for DOB input to validate age in real-time
-dobInput.addEventListener("input", validateAge);
 
 // Display existing entries on page load
 displayEntries();
