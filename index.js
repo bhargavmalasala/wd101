@@ -1,92 +1,79 @@
-// Get form and table body elements
-const userForm = document.getElementById("user-form");
-const entriesTableBody = document.getElementById("entries-table-body");
+document.addEventListener("DOMContentLoaded", function () {
+  const dobInput = document.getElementById("dob");
+  const form = document.getElementById("user-form");
 
-// Initialize userEntries from localStorage or as an empty array
-let userEntries = JSON.parse(localStorage.getItem("user-entries")) || [];
-
-// Function to validate email format
-const validateEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
-
-// Function to calculate age from date of birth
-const calculateAge = (dob) => {
-  const birthDate = new Date(dob);
   const today = new Date();
-  let age = today.getFullYear() - birthDate.getFullYear();
-  const monthDiff = today.getMonth() - birthDate.getMonth();
-  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-    age--;
-  }
-  return age;
-};
+  const minAge = 18;
+  const maxAge = 55;
 
-// Function to display entries in the table
-const displayEntries = () => {
-  entriesTableBody.innerHTML = ""; // Clear the table body
-  userEntries.forEach((entry) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${entry.name}</td>
-      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${entry.email}</td>
-      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${entry.password}</td>
-      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${entry.dob}</td>
-      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${entry.acceptedTermsAndConditions}</td>
-    `;
-    entriesTableBody.appendChild(row);
-  });
-};
+  const maxDate = new Date(today.getFullYear() - minAge, today.getMonth(), today.getDate());
+  const minDate = new Date(today.getFullYear() - maxAge, today.getMonth(), today.getDate());
 
-// Function to handle form submission
-const saveUserForm = (event) => {
-  event.preventDefault();
+  dobInput.min = minDate.toISOString().split("T")[0];
+  dobInput.max = maxDate.toISOString().split("T")[0];
 
-  // Get form values
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const dob = document.getElementById("dob").value;
-  const acceptedTermsAndConditions = document.getElementById("acceptTerms").checked;
-
-  // Validate email
-  if (!validateEmail(email)) {
-    alert("Please enter a valid email address.");
-    return;
-  }
-
-  // Validate age (18 to 55 years)
-  const age = calculateAge(dob);
-  if (age < 18 || age > 55) {
-    alert("Age must be between 18 and 55 years.");
-    return;
-  }
-
-  // Create entry object
-  const entry = {
-    name,
-    email,
-    password,
-    dob,
-    acceptedTermsAndConditions
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   };
 
-  // Add entry to userEntries array
-  userEntries.push(entry);
+  const retrieveEntries = () => {
+    let entries = localStorage.getItem("user-entries");
+    return entries ? JSON.parse(entries) : [];
+  };
 
-  // Save to localStorage
-  localStorage.setItem("user-entries", JSON.stringify(userEntries));
+  let userEntries = retrieveEntries();
 
-  // Display updated entries
+  const displayEntries = () => {
+    const entries = retrieveEntries();
+    const tableRows = entries
+      .map(
+        (entry) => `
+                <tr>
+                    <td>${entry.name}</td>
+                    <td>${entry.email}</td>
+                    <td>${entry.password}</td>
+                    <td>${entry.dob}</td>
+                    <td>${entry.acceptedTerms ? "true" : "false"}</td>
+                </tr>
+            `
+      )
+      .join("\n");
+
+    document.getElementById("entriesTable").innerHTML = tableRows;
+  };
+
+  const saveUserForm = (event) => {
+    event.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const dob = document.getElementById("dob").value;
+    const acceptedTerms = document.getElementById("terms").checked;
+
+    // DOB validation
+    const selectedDate = new Date(dob);
+    if (selectedDate < minDate || selectedDate > maxDate) {
+      dobInput.setCustomValidity(`Date of birth must be between ${formatDate(minDate)} and ${formatDate(maxDate)}.`);
+      dobInput.reportValidity();
+      return;
+    } else {
+      dobInput.setCustomValidity("");
+    }
+
+    // Save form data to localStorage
+    const entry = { name, email, password, dob, acceptedTerms };
+    userEntries.push(entry);
+    localStorage.setItem("user-entries", JSON.stringify(userEntries));
+
+    displayEntries();
+    form.reset();
+  };
+
+  form.addEventListener("submit", saveUserForm);
   displayEntries();
-
-  // Reset the form
-  userForm.reset();
-};
-
-// Display existing entries on page load
-displayEntries();
-
-// Add event listener for form submission
-userForm.addEventListener("submit", saveUserForm);
+});
