@@ -8,11 +8,6 @@ const submitBtn = document.getElementById("submit-btn");
 // Initialize userEntries from localStorage or as an empty array
 let userEntries = JSON.parse(localStorage.getItem("user-entries")) || [];
 
-// Function to validate email format
-const validateEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
 
 // Function to calculate age from date of birth
 const calculateAge = (dob) => {
@@ -85,11 +80,7 @@ const saveUserForm = (event) => {
   const dob = document.getElementById("dob").value;
   const acceptedTermsAndConditions = document.getElementById("acceptTerms").checked;
 
-  // Validate email
-  if (!validateEmail(email)) {
-    alert("Please enter a valid email address.");
-    return;
-  }
+  
 
   // Validate age (redundant due to real-time validation, but kept as a fallback)
   const age = calculateAge(dob);
